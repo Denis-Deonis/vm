@@ -3,7 +3,7 @@ const UnauthorizedError = require('../utils/error/401-unathorized');
 
 const { JWT_SECRET } = process.env;
 
-module.exports = (req, res, next) => {
+module.exports.auth = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization || !authorization.startsWith('Bearer ')) {
     return next(new UnauthorizedError(`Необходима авторизация ${authorization}`));
@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
       process.env.NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-string',
     );
   } catch (err) {
-    return next(new UnauthorizedError('Необходима авторизация'));
+    return next(new UnauthorizedError(`Необходима авторизация ${authorization}`));
   }
   req.user = payload;
   return next();
