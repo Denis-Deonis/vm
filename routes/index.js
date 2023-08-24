@@ -8,6 +8,7 @@ const { login, createUser } = require('../controllers/users')
 
 // получение мидлвары для проверки токена в запросе
 const { validateToken } = require('../middlewares/auth')
+
 const usersRouter = require('./users')
 const moviesRouter = require('./movies')
 const { BadRequestError } = require('../utils/error')

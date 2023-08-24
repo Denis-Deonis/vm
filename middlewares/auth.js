@@ -1,26 +1,53 @@
-// получаем переменные из .env среды
-const { NODE_ENV, JWT_SECRET } = process.env;
-
-// модуль для создания и подтверждения токенов
 const jwt = require('jsonwebtoken');
+const UnauthorizedError = require('../utils/error/401-unathorized');
 
-// подключаем 401 ошибку авторизации
-const { UnathorizedError } = require('../utils/error');
+const { JWT_SECRET } = process.env;
 
-module.exports.validateToken = (req, res, next) => {
-  // получаем токен из запроса
-  const token = req.cookies.jwt;
+module.exports = (req, res, next) => {
+  const { authorization } = req.headers;
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return next(new UnauthorizedError('Необходима авторизация'));
+  }
+  const token = authorization.replace('Bearer ', '');
   let payload;
-
   try {
-    // проверяем токен
     payload = jwt.verify(
       token,
-      NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+      process.env.NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-string',
     );
   } catch (err) {
-    return next(new UnathorizedError('Authorization required'));
+    return next(new UnauthorizedError('Необходима авторизация'));
   }
   req.user = payload;
   return next();
 };
+
+
+
+
+// // получаем переменные из .env среды
+// const { NODE_ENV, JWT_SECRET } = process.env;
+
+// // модуль для создания и подтверждения токенов
+// const jwt = require('jsonwebtoken');
+
+// // подключаем 401 ошибку авторизации
+// const { UnathorizedError } = require('../utils/error');
+
+// module.exports.validateToken = (req, res, next) => {
+//   // получаем токен из запроса
+//   const token = req.cookies.jwt;
+//   let payload;
+
+//   try {
+//     // проверяем токен
+//     payload = jwt.verify(
+//       token,
+//       NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+//     );
+//   } catch (err) {
+//     return next(new UnathorizedError('Authorization required'));
+//   }
+//   req.user = payload;
+//   return next();
+// };
