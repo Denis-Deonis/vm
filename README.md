@@ -1,50 +1,39 @@
-# Movies Explorer (фронтенд-часть)
+# Бэкенд Диплома: Movies Explorer API. <br> Реализована в рамках учебной и практической работы на платформе [Яндекс.Практикум](https://praktikum.yandex.ru/) в факультете ["Веб-разработчик"](https://praktikum.yandex.ru/web/)
 
-Репозиторий для фронтенд-части приложения с интерфейсом на React
+## Ссылки:
+- Backend [http://api.deonis.nomoredomains.work/](http://api.deonis.nomoredomains.work/)
 
-## Приложение Movies Explorer
+## Описание проекта
+[Репозиторий для дипломной работы Movies Explorer](https://github.com/Denis-Deonis/movies-explorer-api), включающий бэкенд часть приложения со следующими возможностями: авторизации и регистрации пользователей, операции с фильмами и пользователями.
 
-Приложение Movies Explorer - сервис с поиском фильмов и сохранением их в личном кабинете. Учебный проект Яндекс.Практикум х BeatFilm.
+## Функционал:
+- Роуты для пользователей:
+    - `GET /users/me` — возвращает информацию о пользователе
+    - `PATCH /users/me` — обновляет информацию о пользователе
+      
+- Роуты для фильмов:
+    - `GET /movies` — возвращает все фильмы из базы
+    - `DELETE /movies/:movieId` — удаляет фильм по _id
+    - `POST /movies` — создаёт фильм с переданными в теле<details><summary>запроса</summary>
+      - country,
+      - director,
+      - duration,
+      - year,
+      - description,
+      - image,
+      - trailer,
+      - thumbnail,
+      - movieId,
+      - nameRU и nameEN
+    
+ 
+## Директории
+* `/controllers` – содержит файлы описания моделей пользователя и фильма
+* `/models` – содержит файлы описания схем пользователя и фильма
+* `/routes` — содержит описание основных роутов для пользователя и фильма
+* `/utils` – содержит вспомогательные файлы
 
-Это дипломный проект Яндекс.Практикума по специальности "Веб-разработчик".
+## Запуск проекта
 
-## Pull requests
-
-[PR для ревью](https://github.com/Denis-Deonis/movies-explorer-frontend/pull/7)
-
-## Структура приложения
-
-Полностью приложение состоит из двух частей:
-
-1. - Repository [Movies Explorer (бэкенд-часть)](https://github.com/Denis-Deonis/movies-explorer-api)
-2. - Repository Movies Explorer (фронтенд-часть) ⬅ _этот репозиторий_
-
-Website [Ссылка на Movies Explorer](http://denis777.nomoreparties.co/signup)
-
-[Ссылка на макет в Figma](https://www.figma.com/file/g539FjnLn7pqXKfGw6nRv9/My_Diploma_Zykov?type=design&mode=design&t=WuSlqfjWnyBUwCJ3-7)
-
-## Установка и запуск проекта
-
-Клонировать репозиторий:
-
-    git clone https://github.com/Denis-Deonis/movies-explorer-frontend
-
-Установить зависимости:
-
-    npm install
-
-Запустить сервер:
-
-    npm run start
-
-Запустить сервер с hot-reload:
-
-    npm run dev
-
-## Языки
-
-- JavaScript
-
-## Библиотеки
-
-- ReactJS
+`npm run start` — запускает сервер   
+`npm run dev` — запускает сервер с hot-reload
