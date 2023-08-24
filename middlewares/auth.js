@@ -8,41 +8,21 @@ module.exports.auth = (req, res, next) => {
   const token = authorization.replace('Bearer ', '');
 
   if (!token) {
-    return next(
-      new UnauthorizedError(`Необходима авторизация ${authorization}`)
-    )
-  } else {
-    let payload
-    try {
-      payload = jwt.verify(
-        token,
-        process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret'
-      )
-    } catch (err) {
-      return next(
-        new UnauthorizedError(`Необходима авторизация ${authorization}`)
-      )
-    }
-    req.user = payload
-    return next()
+    return next(new UnauthorizedError(`Необходима авторизация ${authorization}`));
   }
 
-  // if (!authorization || !authorization.startsWith('Bearer ')) {
-  //   return next(new UnauthorizedError(`Необходима авторизация ${authorization}`));
-  // }
+  let payload;
+  try {
+    payload = jwt.verify(
+      token,
+      process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+    );
+  } catch (err) {
+    return next(new UnauthorizedError(`Необходима авторизация ${authorization}`));
+  }
+  req.user = payload;
+  return next();
 
-
-  // let payload;
-  // try {
-  //   payload = jwt.verify(
-  //     token,
-  //     process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-  //   );
-  // } catch (err) {
-  //   return next(new UnauthorizedError(`Необходима авторизация ${authorization}`));
-  // }
-  // req.user = payload;
-  // return next();
 };
 
 
